@@ -27,7 +27,7 @@ export class Oracle implements ICredentialType {
       default: "",
     },
     {
-      displayName: "Conecction String",
+      displayName: "Connection String",
       name: "connectionString",
       type: "string",
       default: "localhost/orcl",
