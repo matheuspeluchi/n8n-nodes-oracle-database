@@ -39,10 +39,45 @@ export class OracleDatabase implements INodeType {
           alwaysOpenEditWindow: true,
         },
         default: "",
-        placeholder: "SELECT id, name FROM product WHERE id < 40",
+        placeholder: "SELECT id, name FROM product WHERE id < :param_name",
         required: true,
         description: "The SQL query to execute",
       },
+      {
+				displayName: 'Parameters',
+				name: 'params',
+				placeholder: 'Add Parameter',
+				type: 'fixedCollection',
+				typeOptions: {
+					multipleValueButtonText: 'Add another Parameter',
+					multipleValues: true,
+				},
+				default: {},
+				options: [
+					{
+						displayName: 'Values',
+						name: 'values',
+						values: [
+							{
+								displayName: 'Name',
+								name: 'name',
+								type: 'string',
+								default: '',
+								placeholder: 'e.g. param_name',
+                required: true,
+							},
+							{
+								displayName: 'Value',
+								name: 'value',
+								type: 'string',
+								default: '',
+								placeholder: 'e.g. 12345',
+                required: true,
+							},
+						],
+					},
+				],
+			},
     ],
   };
 
@@ -63,8 +98,18 @@ export class OracleDatabase implements INodeType {
     let returnItems = [];
 
     try {
+      //get parameter list:
+      const parameterIDataObjectList = ((this.getNodeParameter('params', 0, {}) as IDataObject).values as {[key: string]: string }[]) || [];
+      const parameterMap: { [key: string]: string } = parameterIDataObjectList.reduce((result, item) => {
+        result[item.name] = item.value;
+        return result;
+      }, {});
+    
+      //get query
       const query = this.getNodeParameter("query", 0) as string;
-      const result = await connection.execute(query, [], {
+
+      //execute query
+      const result = await connection.execute(query, parameterMap, {
         outFormat: oracledb.OUT_FORMAT_OBJECT,
       });
       returnItems = this.helpers.returnJsonArray(
