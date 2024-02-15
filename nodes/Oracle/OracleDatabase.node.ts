@@ -44,40 +44,40 @@ export class OracleDatabase implements INodeType {
         description: "The SQL query to execute",
       },
       {
-				displayName: 'Parameters',
-				name: 'params',
-				placeholder: 'Add Parameter',
-				type: 'fixedCollection',
-				typeOptions: {
-					multipleValueButtonText: 'Add another Parameter',
-					multipleValues: true,
-				},
-				default: {},
-				options: [
-					{
-						displayName: 'Values',
-						name: 'values',
-						values: [
-							{
-								displayName: 'Name',
-								name: 'name',
-								type: 'string',
-								default: '',
-								placeholder: 'e.g. param_name',
+        displayName: 'Parameters',
+        name: 'params',
+        placeholder: 'Add Parameter',
+        type: 'fixedCollection',
+        typeOptions: {
+          multipleValueButtonText: 'Add another Parameter',
+          multipleValues: true,
+        },
+        default: {},
+        options: [
+          {
+            displayName: 'Values',
+            name: 'values',
+            values: [
+              {
+                displayName: 'Name',
+                name: 'name',
+                type: 'string',
+                default: '',
+                placeholder: 'e.g. param_name',
                 required: true,
-							},
-							{
-								displayName: 'Value',
-								name: 'value',
-								type: 'string',
-								default: '',
-								placeholder: 'e.g. 12345',
+              },
+              {
+                displayName: 'Value',
+                name: 'value',
+                type: 'string',
+                default: '',
+                placeholder: 'e.g. 12345',
                 required: true,
-							},
-						],
-					},
-				],
-			},
+              },
+            ],
+          },
+        ],
+      },
     ],
   };
 
